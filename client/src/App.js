@@ -1,16 +1,27 @@
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
-import React, { Component } from 'react';
-import { useEffect } from "react";
+import React from 'react';
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 function App() {
+  const [state, setState] = useState({ msg: "here" });
+  const getRequest = async () => {
+    try {
+      const { data } = await axios.get("/api/test");
+      setState(data);
+    } catch (err) {
+      console.log(err)
+    };
+  };
+
   useEffect(() => {
-    axios.get("/api/test").then(res => console.log(res));
+    getRequest();
   }, [])
+
   return (
     <div className="App">
-      <h1>Hello world</h1>
+      <h1>{state.msg}</h1>
     </div>
   );
 }
